@@ -1,0 +1,40 @@
+{% extends "quiz/base.html" %}
+ {% block content %}
+ <br>
+   <div class="col-sm-3"></div>
+   <div class="col-sm-6 ">
+   {% for quiz in quizes %}
+       <div class="row" style="border:1px solid; padding:20px;">
+         <div class="media-body">
+          <div class="article-metadata">
+           <a class="mr-2" href="#">{{ quiz.author }}</a>
+           <small class="text-muted" >{{ quiz.date_posted }}</small>
+          </div>
+          <hr>
+          <h2><a class="article-title" href="#">{{ quiz.title }}</a></h2>
+          {% if not quiz.description %}
+             <div class="col-sm-6 ">
+                 <p class="article-content">Description : There is no description.</p>
+             </div>
+          {% else %}
+             <div class="col-sm-6 ">
+                 <p class="article-content">Description : {{ quiz.description }}</p>
+             </div>
+          {% endif %}
+             <div class="col-sm-3 ">
+                 <p class="article-content">Questions : {{ quiz.questions }}</p>
+             </div>
+             <div class="col-sm-3 ">
+                 <p class="article-content">Marks : {{ quiz.marks }}</p>
+             </div>
+         </div>
+           <br>
+           <div style="text-align:center;">
+               <a href="#" class="btn btn-primary">Attempt Test</a>
+           </div>
+        </div>
+    <br>
+   {% endfor %}
+   </div>
+   <div class="col-sm-3 "></div>
+ {% endblock %}

@@ -1,0 +1,55 @@
+{% extends "quiz/base.html" %}
+ {% block content %}
+    <div style="border: 1px solid black; text-align:center; width: 50%; margin-right:25%; margin-left:25%; margin-top:30px; padding:10px;">
+            <div class="media">
+                <img style="border-radius:50%; width:100px;" class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+                <div class="media-body">
+                    <h2 class="account heading">{{ user.username }}</h2>
+                    <p class="text-secondary">{{ user.email }}</p>
+                    <p class=text-secondary">{{ user.profile.address }}</p>
+                </div>
+            </div>
+
+        </div>
+        <div class="content-section" style="width: 50%; border: 1px solid black; padding: 20px; padding-top: 5px; margin-left: 25%; margin-right: 25%; margin-top: 50px;">
+        <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                 <fieldset class="form-group">
+                        <legend class="border-bottom">
+                            Profile Info
+                     </legend>
+                    {% for field in u_form %}
+                <p>
+                    {{ field.label_tag }}<br>
+                    {{ field }}
+
+                    {% if field.help_text %}
+                        <small style="color: grey">{{ field.help_text }}</small>
+                    {% endif %}
+
+                    {% for error in field.errors %}
+                     <p style="color: red">{{ error }}</p>
+                    {% endfor %}
+                </p>
+            {% endfor %}
+                     {% for field in p_form %}
+                <p>
+                    {{ field.label_tag }}<br>
+                    {{ field }}
+
+                    {% if field.help_text %}
+                        <small style="color: grey">{{ field.help_text }}</small>
+                    {% endif %}
+
+                    {% for error in field.errors %}
+                     <p style="color: red">{{ error }}</p>
+                    {% endfor %}
+                </p>
+            {% endfor %}
+            </fieldset>
+            <div class="form-group">
+                <p style="text-align:center;"><button class="btn btn-outline-info" type="submit">Update</button></p>
+            </div>
+        </form>
+        </div>
+{% endblock %}

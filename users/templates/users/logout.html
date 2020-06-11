@@ -1,0 +1,13 @@
+{% extends "quiz/base.html" %}
+ {% block content %}
+    <div class="content-section" style="width: 50%; border: 1px solid black; padding: 20px; padding-top: 5px; margin-left: 25%; margin-right: 25%; margin-top: 50px;">
+        <div class="container">
+            <h3>You have been logged out</h3>
+        </div>
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                Sign In Again?<a class="ml-2" href = "{% url 'login' %}">Sign In</a>
+            </small>
+        </div>
+    </div>
+{% endblock %}
