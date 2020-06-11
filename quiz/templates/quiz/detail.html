@@ -1,0 +1,39 @@
+{% extends "quiz/base.html" %}
+ {% block content %}
+ <br>
+   <div class="col-sm-3"></div>
+   <div class="col-sm-6 ">
+       <div class="row" style="border:1px solid; padding:20px;">
+         <div class="media-body">
+          <div class="article-metadata">
+           <a class="mr-2" href="{% url 'user_details' quiz.author.id %}"><img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}" style="width:25px;">  {{ quiz.author }}</a>
+           <small class="text-muted" >{{ object.date_posted }}</small>
+          </div>
+          <hr>
+             <div style="text-align:center;">
+                 <h2><a class="article-title" href="#">{{ object.title }}</a></h2>
+             </div><br>
+             <div class="col-sm-7 ">
+                  {% if not quiz.instructions %}
+                     <p class="article-content">Instructions : There are no specific Instructions.</p>
+                  {% else %}
+                     <p class="article-content">Instructions :</p>
+                     <p class="article-content">{{ object.instructions|linebreaks}}</p>
+                  {% endif %}
+             </div>
+             <div class="col-sm-3 ">
+                 <p class="article-content">Questions : {{ object.questions }}</p>
+             </div>
+             <div class="col-sm-2 ">
+                 <p class="article-content">Marks : {{ object.marks }}</p>
+             </div>
+         </div>
+           <br>
+           <div style="text-align:center;">
+               <a href="#" class="btn btn-primary">Start Test</a>
+           </div>
+        </div>
+    <br>
+   </div>
+   <div class="col-sm-3 "></div>
+ {% endblock %}

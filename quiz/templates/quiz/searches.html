@@ -1,40 +1,57 @@
 {% extends "quiz/base.html" %}
  {% block content %}
  <br>
-   <div class="col-sm-3"></div>
-   <div class="col-sm-6 ">
-   {% for quiz in quizes %}
-       <div class="row" style="border:1px solid; padding:20px;">
-         <div class="media-body">
-          <div class="article-metadata">
-           <a class="mr-2" href="#">{{ quiz.author }}</a>
-           <small class="text-muted" >{{ quiz.date_posted }}</small>
-          </div>
-          <hr>
-          <h2><a class="article-title" href="#">{{ quiz.title }}</a></h2>
-          {% if not quiz.description %}
-             <div class="col-sm-6 ">
-                 <p class="article-content">Description : There is no description.</p>
-             </div>
-          {% else %}
-             <div class="col-sm-6 ">
-                 <p class="article-content">Description : {{ quiz.description }}</p>
-             </div>
-          {% endif %}
-             <div class="col-sm-3 ">
-                 <p class="article-content">Questions : {{ quiz.questions }}</p>
-             </div>
-             <div class="col-sm-3 ">
-                 <p class="article-content">Marks : {{ quiz.marks }}</p>
-             </div>
-         </div>
-           <br>
-           <div style="text-align:center;">
-               <a href="#" class="btn btn-primary">Attempt Test</a>
-           </div>
-        </div>
-    <br>
-   {% endfor %}
+   <div class="col-sm-4">
+       <div class="container">
+           <h2>Users:</h2>
+           {% if not users %}
+                <h2>No users found</h2>
+           {% else %}
+               {% for user in users %}
+           <h2><a class="mr-2" href="{% url 'user_details' user.id %}">{{ user }}</a></h2>
+               {% endfor %}
+           {% endif %}
+       </div>
    </div>
-   <div class="col-sm-3 "></div>
+   <div class="col-sm-6 ">
+       <h2>Quizes:</h2>
+       <br>
+   {% if not quizes %}
+            <h2>No quizes found</h2>
+   {% else %}
+       {% for quiz in quizes %}
+           <div class="row" style="border:1px solid; padding:20px;">
+             <div class="media-body">
+              <div class="article-metadata">
+               <a class="mr-2" href="{% url 'user_details' quiz.author.id %}"><img class="rounded-circle article-img" src="{{ quiz.author.profile.image.url }}" style="width:25px;"> {{ quiz.author }}</a>
+               <small class="text-muted" >{{ quiz.date_posted }}</small>
+              </div>
+              <hr>
+              <h2><a class="article-title" href="#">{{ quiz.title }}</a></h2>
+              {% if not quiz.description %}
+                 <div class="col-sm-6 ">
+                     <p class="article-content">Description : There is no description.</p>
+                 </div>
+              {% else %}
+                 <div class="col-sm-6 ">
+                     <p class="article-content">Description : {{ quiz.description }}</p>
+                 </div>
+              {% endif %}
+                 <div class="col-sm-3 ">
+                     <p class="article-content">Questions : {{ quiz.questions }}</p>
+                 </div>
+                 <div class="col-sm-3 ">
+                     <p class="article-content">Marks : {{ quiz.marks }}</p>
+                 </div>
+             </div>
+               <br>
+               <div style="text-align:center;">
+                   <a href="{% url 'quiz_detail' quiz.id %}" class="btn btn-primary">View Test</a>
+               </div>
+            </div>
+        <br>
+       {% endfor %}
+    {% endif %}
+   </div>
+   <div class="col-sm-2 "></div>
  {% endblock %}

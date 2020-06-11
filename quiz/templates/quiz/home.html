@@ -7,7 +7,7 @@
        <div class="row" style="border:1px solid; padding:20px;">
          <div class="media-body">
           <div class="article-metadata">
-           <a class="mr-2" href="#"><img class="rounded-circle article-img" src="{{ quiz.author.profile.image.url }}" style="width:25px;">  {{ quiz.author }}</a>
+           <a class="mr-2" href="{% url 'user_details' quiz.author.id %}"><img class="rounded-circle article-img" src="{{ quiz.author.profile.image.url }}" style="width:25px;">  {{ quiz.author }}</a>
            <small class="text-muted" >{{ quiz.date_posted }}</small>
           </div>
           <hr>
@@ -30,7 +30,7 @@
          </div>
            <br>
            <div style="text-align:center;">
-               <a href="#" class="btn btn-primary">Attempt Test</a>
+               <a href="{% url 'quiz_detail' quiz.id %}" class="btn btn-primary">View Test</a>
            </div>
         </div>
     <br>

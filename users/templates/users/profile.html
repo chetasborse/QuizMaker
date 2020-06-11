@@ -1,55 +1,104 @@
 {% extends "quiz/base.html" %}
  {% block content %}
-    <div style="border: 1px solid black; text-align:center; width: 50%; margin-right:25%; margin-left:25%; margin-top:30px; padding:10px;">
-            <div class="media">
-                <img style="border-radius:50%; width:100px;" class="rounded-circle account-img" src="{{ user.profile.image.url }}">
-                <div class="media-body">
-                    <h2 class="account heading">{{ user.username }}</h2>
-                    <p class="text-secondary">{{ user.email }}</p>
-                    <p class=text-secondary">{{ user.profile.address }}</p>
+    <div class="container">
+        <div class="col-sm-5">
+            <div class="row" style="border:1px solid; padding:10px;">
+                <div class="media">
+                    <div class="col-sm-3">
+                        <img style="border-radius:50%; width:100px;" class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+                    </div>
+                    <div class="col-sm-9">
+                        <div class="media-body">
+                            <h2 class="account heading">{{ user.first_name }} {{ user.last_name }}</h2>
+<!--                            <p class="text-secondary">{{ user.username }}</p>-->
+                            <p class="text-secondary">{{ user.email }}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <div class="row">
+                <br>
+                <div style="text-align:center;">
+                    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">Update Profile</button>
+                </div>
+                <div id="demo" class="collapse">
+                    <div class="content-section" style="width: 100%; border: 1px solid black; padding: 20px; padding-top: 5px; margin-top: 20px;">
+                    <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                             <fieldset class="form-group">
+                                    <legend class="border-bottom">
+                                        Profile Info
+                                 </legend>
+                                {% for field in u_form %}
+                            <p>
+                                {{ field.label_tag }}<br>
+                                {{ field }}
 
-        </div>
-        <div class="content-section" style="width: 50%; border: 1px solid black; padding: 20px; padding-top: 5px; margin-left: 25%; margin-right: 25%; margin-top: 50px;">
-        <form method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                 <fieldset class="form-group">
-                        <legend class="border-bottom">
-                            Profile Info
-                     </legend>
-                    {% for field in u_form %}
-                <p>
-                    {{ field.label_tag }}<br>
-                    {{ field }}
+                                {% if field.help_text %}
+                                    <small style="color: grey">{{ field.help_text }}</small>
+                                {% endif %}
 
-                    {% if field.help_text %}
-                        <small style="color: grey">{{ field.help_text }}</small>
-                    {% endif %}
+                                {% for error in field.errors %}
+                                 <p style="color: red">{{ error }}</p>
+                                {% endfor %}
+                            </p>
+                        {% endfor %}
+                                 {% for field in p_form %}
+                            <p>
+                                {{ field.label_tag }}<br>
+                                {{ field }}
 
-                    {% for error in field.errors %}
-                     <p style="color: red">{{ error }}</p>
-                    {% endfor %}
-                </p>
-            {% endfor %}
-                     {% for field in p_form %}
-                <p>
-                    {{ field.label_tag }}<br>
-                    {{ field }}
+                                {% if field.help_text %}
+                                    <small style="color: grey">{{ field.help_text }}</small>
+                                {% endif %}
 
-                    {% if field.help_text %}
-                        <small style="color: grey">{{ field.help_text }}</small>
-                    {% endif %}
-
-                    {% for error in field.errors %}
-                     <p style="color: red">{{ error }}</p>
-                    {% endfor %}
-                </p>
-            {% endfor %}
-            </fieldset>
-            <div class="form-group">
-                <p style="text-align:center;"><button class="btn btn-outline-info" type="submit">Update</button></p>
+                                {% for error in field.errors %}
+                                 <p style="color: red">{{ error }}</p>
+                                {% endfor %}
+                            </p>
+                        {% endfor %}
+                        </fieldset>
+                        <div class="form-group">
+                            <p style="text-align:center;"><button class="btn btn-primary" type="submit">Update</button></p>
+                        </div>
+                    </form>
+                    </div>
+                </div>
             </div>
-        </form>
         </div>
+        <div class="col-sm-1"></div>
+        <div class="col-sm-6">
+            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo1">Quizes Hosted</button>
+            <br><br>
+            <div id="demo1" class="collapse">
+                {% for quiz in quizes %}
+                <div class="row">
+                    <div style="border:1px solid; padding:10px;">
+                    <h2><a href="#">{{ quiz.title }}</a></h2>
+                      {% if not quiz.description %}
+                         <div class="col-sm-6 ">
+                             <p class="article-content">Description : There is no description.</p>
+                         </div>
+                      {% else %}
+                         <div class="col-sm-6 ">
+                             <p class="article-content">Description : {{ quiz.description }}</p>
+                         </div>
+                      {% endif %}
+                         <div class="col-sm-3 ">
+                             <p class="article-content">Questions : {{ quiz.questions }}</p>
+                         </div>
+                         <div class="col-sm-3 ">
+                             <p class="article-content">Marks : {{ quiz.marks }}</p>
+                         </div>
+                       <br>
+                       <div style="text-align:center;">
+                           <a href="{% url 'quiz_detail' quiz.id %}" class="btn btn-primary">View Test</a>
+                       </div>
+                    </div>
+                </div>
+                <br>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 {% endblock %}

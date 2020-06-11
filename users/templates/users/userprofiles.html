@@ -1,0 +1,54 @@
+{% extends "quiz/base.html" %}
+ {% block content %}
+    <div class="container">
+        <div class="col-sm-6" style="background-color:rgb(235,235,235); padding:20px;">
+            <div class="row">
+                <div class="col-sm-3" style="display:block; margin-left:auto; margin-right:auto; width:50%;">
+                    <img style="border-radius:50%; width:100px;" class="rounded-circle account-img" src="{{ object.profile.image.url }}">
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="col-sm-8">
+                    <div class="media-body">
+                        <h3 class="text-secondary">Name: {{ object.first_name }} {{ object.last_name }}</h3>
+                        <h3 class="text-secondary">Username: {{ object.username }}</h3>
+                        <h3 class="text-secondary">Email: {{ object.email }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-1"></div>
+        <div class="col-sm-5">
+            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo1">Quizes Hosted</button>
+            <br><br>
+            <div id="demo1" class="collapse">
+                {% for quiz in quizes %}
+                <div class="row">
+                    <div style="border:1px solid; padding:10px;">
+                    <h2><a href="#">{{ quiz.title }}</a></h2>
+                      {% if not quiz.description %}
+                         <div class="col-sm-6 ">
+                             <p class="article-content">Description : There is no description.</p>
+                         </div>
+                      {% else %}
+                         <div class="col-sm-6 ">
+                             <p class="article-content">Description : {{ quiz.description }}</p>
+                         </div>
+                      {% endif %}
+                         <div class="col-sm-3 ">
+                             <p class="article-content">Questions : {{ quiz.questions }}</p>
+                         </div>
+                         <div class="col-sm-3 ">
+                             <p class="article-content">Marks : {{ quiz.marks }}</p>
+                         </div>
+                       <br>
+                       <div style="text-align:center;">
+                           <a href="{% url 'quiz_detail' quiz.id %}" class="btn btn-primary">View Test</a>
+                       </div>
+                    </div>
+                </div>
+                <br>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

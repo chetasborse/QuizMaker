@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
+from quiz.models import Quiz
+from django.views.generic import DetailView
+from django.contrib.auth.models import User
 
 
 def register(request):
@@ -31,8 +34,24 @@ def myprofile(request):
     else:
         u_form = UserUpdateForm(instance=request.user)
         p_form = ProfileUpdateForm(instance=request.user.profile)
+    my_quizes = Quiz.objects.filter(author=request.user)
     context = {
+        'title': 'Profile',
         'u_form': u_form,
         'p_form': p_form,
+        'quizes': my_quizes,
     }
     return render(request, 'users/profile.html', context)
+
+
+class UserProfiles(DetailView):
+    model = User
+    template_name = 'users/userprofiles.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        new_context_entry = "Profile"
+        my_quizes = Quiz.objects.filter(author=self.object)
+        context["title"] = new_context_entry
+        context["quizes"] = my_quizes
+        return context
