@@ -1,0 +1,36 @@
+{% extends "quiz/base.html" %}
+ {% block content %}
+    <div class="content-section" style="width: 50%; border: 1px solid black; padding: 20px; padding-top: 5px; margin-left: 25%; margin-right: 25%; margin-top: 50px;">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <legend class="border-bottom">
+                    Create New Quiz
+                </legend>
+                    {% for field in form %}
+                        <div class="row">
+                            <div class="form-group" style="margin:10px;">
+                                <div style="text-align:center;">
+                                    <label class="col-sm-3">{{ field.label_tag }}</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    {{ field }}
+                                </div>
+                            </div>
+                            {% if field.help_text %}
+                                <small style="color: grey">{{ field.help_text }}</small>
+                            {% endif %}
+
+                            {% for error in field.errors %}
+                             <p style="color: red">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+            </div>
+            </fieldset>
+            <div class="form-group">
+                <p style="text-align:center;"><button class="btn btn-primary" type="submit">Create</button></p>
+            </div>
+        </form>
+    </div>
+{% endblock %}
