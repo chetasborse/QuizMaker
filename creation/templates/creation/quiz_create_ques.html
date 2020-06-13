@@ -1,0 +1,46 @@
+{% extends "quiz/base.html" %}
+ {% block content %}
+    <div class="container">
+        <form method="POST">
+                {% csrf_token %}
+                {{ form.management_form }}
+                {% for form1 in form %}
+                     <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Question: </label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="question" placeholder="Enter the Question ">
+                        </div>
+                     </div>
+
+
+                {% endfor %}
+                <div class="row">
+                <p class="wrapper">
+                    <button  type = "submit" style="color:rgba(188,47,38,1);">Submit</button></p>
+                </div>
+        </form>
+    </div>
+{% endblock %}
+
+<!--                    <div class="container" style="border:1px solid; padding: 20px;">-->
+<!--                    {% for field in form1 %}-->
+<!--                        <div class="row">-->
+<!--                            <div class="form-group" style="margin:10px;">-->
+<!--                                <div style="text-align:center;">-->
+<!--                                    <label class="col-sm-3">{{ field.label_tag }}</label>-->
+<!--                                </div>-->
+<!--                                <div class="col-sm-9">-->
+<!--                                    {{ field }}-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+<!--                            {% if field.help_text %}-->
+<!--                                <small style="color: grey">{{ field.help_text }}</small>-->
+<!--                            {% endif %}-->
+
+<!--                            {% for error in field.errors %}-->
+<!--                             <p style="color: red">{{ error }}</p>-->
+<!--                            {% endfor %}-->
+<!--                    {% endfor %}-->
+<!--                    </div>-->

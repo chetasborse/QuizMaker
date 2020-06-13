@@ -14,4 +14,4 @@ class Quiz(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def get_absolute_url(self):
-        return reverse('quiz_detail', kwargs={'pk': self.pk})
+        return reverse('quiz_create_view', kwargs={'pk': self.pk})
