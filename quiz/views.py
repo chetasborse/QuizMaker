@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Quiz
 import re
-from django.views.generic import DetailView, ListView
+from django.views.generic import DetailView, ListView, FormView
 from django.contrib.auth.models import User
+from creation.forms import QuizAttempt
 
 
 def home(request):
@@ -26,15 +27,38 @@ class HomeListView(ListView):
         return context
 
 
-class QuizDetailView(DetailView):
+class QuizDetailView(DetailView, FormView):
     model = Quiz
     template_name = 'quiz/detail.html'
+    form_class = QuizAttempt
+    success_url = 'quiz/home.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         new_context_entry = "Details"
         context["title"] = new_context_entry
         return context
+
+
+def quizdetailview(request, pk):
+    quiz = Quiz.objects.filter(pk=pk).first()
+    # is_error = False
+    # if request.method == 'POST':
+    #     form = QuizAttempt(request.POST)
+    #     if form.is_valid():
+    #         password = form.cleaned_data.get('password')
+    #         if quiz.password == password:
+    #             return redirect('quiz-home')
+    #         else:
+    #             is_error = True
+    # form = QuizAttempt()
+    context = {
+        'title': 'Details',
+        'object': quiz,
+        # 'form': form,
+        # 'error': is_error
+    }
+    return render(request, 'quiz/detail.html', context)
 
 
 def about(request):

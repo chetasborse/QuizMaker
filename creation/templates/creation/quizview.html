@@ -1,0 +1,6 @@
+{% extends "quiz/base.html" %}
+ {% block content %}
+    {% for ques in questions %}
+        <p>{{ ques.question }}</p>
+    {% endfor %}
+{% endblock %}

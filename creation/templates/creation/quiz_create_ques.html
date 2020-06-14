@@ -4,43 +4,78 @@
         <form method="POST">
                 {% csrf_token %}
                 {{ form.management_form }}
+            <div class="container">
+            <div class="row">
                 {% for form1 in form %}
-                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Question: </label>
-                        <div class="col-sm-10">
-                          <input type="text" class="form-control" id="question" placeholder="Enter the Question ">
+                    <div class="col-sm-5" style="border:1px solid; padding:20px; margin:10px;">
+                         <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Question {{ forloop.counter }}:</label>
+                            <div class="col-sm-9">
+                              {{form1.question}}
+                            </div>
+                         </div>
+                         {% for error in form1.question.errors %}
+                             <p style="color: red">Enter the question</p>
+                            {% endfor %}
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                              {{form1.option_a}}
+                            </div>
+                            {% for error in form1.option_a.errors %}
+                             <p style="color: red">Enter Option A</p>
+                            {% endfor %}
+                            <div class="col-sm-6">
+                              {{form1.option_b}}
+                            </div>
+                            {% for error in form1.option_b.errors %}
+                             <p style="color: red">Enter Option B</p>
+                            {% endfor %}
                         </div>
-                     </div>
-
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                              {{form1.option_c}}
+                            </div>
+                            {% for error in form1.option_c.errors %}
+                             <p style="color: red">Enter Option C</p>
+                            {% endfor %}
+                            <div class="col-sm-6">
+                              {{form1.option_d}}
+                            </div>
+                            {% for error in form1.option_d.errors %}
+                             <p style="color: red">Enter Option D</p>
+                            {% endfor %}
+                         </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Answer: </label>
+                            <div class="col-sm-3">
+                              {{form1.answer}}
+                            </div>
+                             {% for error in form1.answer.errors %}
+                             <p style="color: red">{{ error }}</p>
+                            {% endfor %}
+                            <div class="col-sm-1"></div>
+                            <label class="col-sm-2 col-form-label">Marks: </label>
+                            <div class="col-sm-4">
+                              {{form1.marks}}
+                            </div>
+                             {% for error in form1.marks.errors %}
+                             <p style="color: red">Enter Marks</p>
+                            {% endfor %}
+                         </div>
+                    </div>
+                    {% if forloop.counter|divisibleby:2 and forloop.counter > 0 and not forloop.last %}
+                         </div><div class = "row">
+                    {% else %}
+                        <div class="col-sm-2"></div>
+                    {% endif %}
 
                 {% endfor %}
-                <div class="row">
-                <p class="wrapper">
-                    <button  type = "submit" style="color:rgba(188,47,38,1);">Submit</button></p>
+            </div>
+            </div>
+                 <div class="form-group">
+                    <p style="text-align:center;"><button class="btn btn-primary" onclick="alertbox()" type="submit">Create</button></p>
                 </div>
         </form>
     </div>
+
 {% endblock %}
-
-<!--                    <div class="container" style="border:1px solid; padding: 20px;">-->
-<!--                    {% for field in form1 %}-->
-<!--                        <div class="row">-->
-<!--                            <div class="form-group" style="margin:10px;">-->
-<!--                                <div style="text-align:center;">-->
-<!--                                    <label class="col-sm-3">{{ field.label_tag }}</label>-->
-<!--                                </div>-->
-<!--                                <div class="col-sm-9">-->
-<!--                                    {{ field }}-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-
-<!--                            {% if field.help_text %}-->
-<!--                                <small style="color: grey">{{ field.help_text }}</small>-->
-<!--                            {% endif %}-->
-
-<!--                            {% for error in field.errors %}-->
-<!--                             <p style="color: red">{{ error }}</p>-->
-<!--                            {% endfor %}-->
-<!--                    {% endfor %}-->
-<!--                    </div>-->

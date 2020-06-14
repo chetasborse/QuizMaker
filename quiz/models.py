@@ -12,6 +12,7 @@ class Quiz(models.Model):
     marks = models.IntegerField(default=0)
     date_posted = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+    password = models.CharField(max_length=20, default=None)
 
     def get_absolute_url(self):
         return reverse('quiz_create_view', kwargs={'pk': self.pk})

@@ -4,10 +4,13 @@ from . import views
 from users import views as user_views
 from .views import QuizDetailView, HomeListView
 from users.views import UserProfiles
+from creation import views as create_views
 
 urlpatterns = [
     path('', HomeListView.as_view(), name='quiz-home'),
-    path('quiz/<int:pk>/', QuizDetailView.as_view(), name='quiz_detail'),
+    # path('quiz/<int:pk>/', QuizDetailView.as_view(), name='quiz_detail'),
+    path('quiz/<int:pk>/', views.quizdetailview, name='quiz_detail'),
+    path('quizview/<int:pk>/<str:password>/', create_views.quizview, name='quiz_view'),
     path('userprofiles/<int:pk>/', UserProfiles.as_view(), name='user_details'),
     path('about/', views.about, name='quiz-about'),
     path('register/', user_views.register, name='register'),
