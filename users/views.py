@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
-from quiz.models import Quiz
+from quiz.models import Quiz, QuizAnswer
 from django.views.generic import DetailView
 from django.contrib.auth.models import User
 
@@ -35,11 +35,13 @@ def myprofile(request):
         u_form = UserUpdateForm(instance=request.user)
         p_form = ProfileUpdateForm(instance=request.user.profile)
     my_quizes = Quiz.objects.filter(author=request.user)
+    enrolled = QuizAnswer.objects.filter(author=request.user)
     context = {
         'title': 'Profile',
         'u_form': u_form,
         'p_form': p_form,
         'quizes': my_quizes,
+        'enrolled': enrolled,
     }
     return render(request, 'users/profile.html', context)
 
@@ -55,3 +57,12 @@ class UserProfiles(DetailView):
         context["title"] = new_context_entry
         context["quizes"] = my_quizes
         return context
+
+
+def responses(request, pk):
+    response = QuizAnswer.objects.filter(quiz_no=pk)
+    context = {
+        'title': 'Responses',
+        'response': response
+    }
+    return render(request, 'users/responses.html', context)

@@ -1,0 +1,101 @@
+{% extends "quiz/base.html" %}
+ {% block content %}
+    <div class="container" style="text-align:center;">
+        <h3>Review</h3>
+    </div>
+    <br>
+    <div class="container">
+        <div style="border:1px solid; padding:20px;">
+            <div class="row">
+                <label class="col-sm-2 col-form-label">Topic :</label><label class="col-sm-10 col-form-label"> {{ quiz.title }}</label>
+                <label class="col-sm-2 col-form-label">Marks scored : </label><label class="col-sm-10 col-form-label">{{ quiz_ans.marks }} / {{ quiz.marks }}</label>
+                <label class="col-sm-2 col-form-label">Host: </label><label class="col-sm-10 col-form-label"><a href="{% url 'user_details' quiz.author.id %}">{{ quiz.author }}</a></label><hr>
+                <label class="col-sm-2 col-form-label">Time : </label><label class="col-sm-10 col-form-label">{{ quiz_ans.date_posted }}</label>
+            </div>
+        </div>
+    </div>
+<br>
+    <div class="container">
+        {% for ques, ans in mylist %}
+            <div class="col-sm-12" style="border:1px solid; padding-top:10px; margin-bottom:10px; padding-right:20px; padding-left:20px;">
+                 <div class="form-group row">
+                    <label class="col-sm-9 col-form-label">{{ forloop.counter }}: {{ques.question}}</label>
+                     <div class="col-sm-2">Marks Scored: </div>
+                    <div class="col-sm-1">
+                        {% if ques.answer == ans.answer %}
+                            {{ques.marks}}
+                        {% else %}
+                            0
+                        {% endif %}
+                    </div>
+                 </div>
+                <hr>
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                      A. {{ques.option_a}}
+                    </div>
+                    <div class="col-sm-6">
+                      B. {{ques.option_b}}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                      C. {{ques.option_c}}
+                    </div>
+                    <div class="col-sm-6">
+                      D. {{ques.option_d}}
+                    </div>
+                 </div>
+                {% if ques.answer == ans.answer %}
+                    <div class="form-group row" style="background-color:rgba(0, 255 ,0 , 0.6); padding: 5px;">
+                        <label class="col-sm-2 col-form-label">Your Answer: </label>
+                        <div class="col-sm-10">
+                            {% if ans.answer == 'A' %}
+                                {{ ques.option_a }}
+                            {% elif ans.answer == 'B' %}
+                                {{ ques.option_b }}
+                            {% elif ans.answer == 'C'%}
+                                {{ ques.option_c }}
+                            {% elif ans.answer == 'D'%}
+                                {{ ques.option_d }}
+                            {% endif %}
+    <!--                      {{ques.answer}}-->
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="form-group row" style="background-color:rgba(255, 0 ,0 , 0.6); padding: 5px;">
+                        <label class="col-sm-2 col-form-label">Your Answer: </label>
+                        <div class="col-sm-10">
+                            {% if ans.answer == 'A' %}
+                                {{ ques.option_a }}
+                            {% elif ans.answer == 'B' %}
+                                {{ ques.option_b }}
+                            {% elif ans.answer == 'C'%}
+                                {{ ques.option_c }}
+                            {% elif ans.answer == 'D'%}
+                                {{ ques.option_d }}
+                            {% endif %}
+    <!--                      {{ques.answer}}-->
+                        </div>
+                    </div>
+                    <div class="form-group row" style="background-color:rgba(255, 255 ,0 , 0.6); padding: 5px;">
+                        <label class="col-sm-2 col-form-label">Correct Answer: </label>
+                        <div class="col-sm-10">
+                            {% if ques.answer == 'A' %}
+                                {{ ques.option_a }}
+                            {% elif ques.answer == 'B' %}
+                                {{ ques.option_b }}
+                            {% elif ques.answer == 'C'%}
+                                {{ ques.option_c }}
+                            {% elif ques.answer == 'D'%}
+                                {{ ques.option_d }}
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+<br>
+
+{% endblock %}

@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 from django.views.generic import CreateView
-from quiz.models import Quiz
+from quiz.models import Quiz, QuizAnswer
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
 from django.forms import formset_factory
-from .forms import QuestionForm
-from .models import Questions
+from .forms import QuestionForm, AnswerForm
+from .models import Questions, Answers
+from django.contrib import messages
 
 
 class QuizCreateView(LoginRequiredMixin, CreateView):
@@ -60,8 +61,66 @@ def quiz_create_ques(request, pk):
 
 def quizview(request, pk, password):
     questions = Questions.objects.filter(quiz_no=pk)
+    quizans = QuizAnswer.objects.filter(quiz_no=pk, author=request.user)
+    quiz = Quiz.objects.filter(pk=pk).first()
+    if quizans:
+        messages.error(request, f'You have already attempted this quiz')
+        return redirect('profile')
+    print("here1")
+    count = len(questions)
+    print("here2")
+    AnswerFormSet = formset_factory(AnswerForm, extra=count, max_num=count)
+    print("here3")
+    if request.method == 'POST':
+        formset = AnswerFormSet(request.POST)
+        if formset.is_valid():
+            quizanswer = QuizAnswer()
+            quizanswer.quiz_no = pk
+            quizanswer.author = request.user
+            mark = 0
+            for i, form in enumerate(formset):
+                ans = Answers()
+                ans.quiz_no = pk
+                # remember to check the emptiness of answerfield
+                ans.answer = form.cleaned_data.get('answer')
+                ans.question_no = questions[i].pk
+                ans.author = request.user
+                if ans.answer == questions[i].answer:
+                    mark = mark + questions[i].marks
+                ans.save()
+            quizanswer.marks = mark
+            quizanswer.host = quiz.author
+            quizanswer.questions = quiz.questions
+            quizanswer.title = quiz.title
+            quizanswer.save()
+            return redirect('profile')
+    else:
+        formset = AnswerFormSet()
+    print("here4")
+    mylist = zip(formset, questions)
+    print("here")
+    # for item1, item2 in mylist:
+    #     print(item2)
+    #     print(item1)
     context = {
         'title': 'Quiz View',
-        'questions': questions
+        'mylist': mylist,
+        'form': formset
     }
+    # return redirect('quiz-home')
     return render(request, 'creation/quizview.html', context)
+
+
+def review(request, pk):
+    answers = Answers.objects.filter(quiz_no=pk, author=request.user)
+    questions = Questions.objects.filter(quiz_no=pk)
+    quiz_ans = QuizAnswer.objects.filter(quiz_no=pk, author=request.user).first()
+    quiz = Quiz.objects.filter(pk=pk).first()
+    mylist = zip(questions, answers)
+    context = {
+        'title': 'Review',
+        'mylist': mylist,
+        'quiz_ans': quiz_ans,
+        'quiz': quiz
+    }
+    return render(request, 'creation/review.html', context)

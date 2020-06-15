@@ -42,7 +42,12 @@
                </div>
                <div class="col-sm-1"></div>
            </div>
-           <p id="demo"></p>
+           <div class="row">
+               <div class = "col-sm-4"></div>
+               <div class = "col-sm-5">
+                   <p id="demo" style="color:red;"></p></div>
+               <div class="col-sm-3"></div>
+           </div>
 
 
 <!--           <div class = "row">-->
@@ -85,7 +90,7 @@
             location.href="{% url 'quiz_view' pk=object.pk password=object.password %}";
         }
         else {
-            document.getElementById("demo").innerHTML = password1;
+            document.getElementById("demo").innerHTML = "Password is incorrect";
         }
     }
 </script>

@@ -1,6 +1,61 @@
 {% extends "quiz/base.html" %}
  {% block content %}
-    {% for ques in questions %}
-        <p>{{ ques.question }}</p>
-    {% endfor %}
+    <div class="container">
+        <form method="POST">
+                {% csrf_token %}
+                {{ form.management_form }}
+            <div class="container">
+            <div class="row">
+                <p>hmmm</p>
+                {% for a, b in mylist %}
+                    <div class="col-sm-5" style="border:1px solid; padding:20px; margin:10px;">
+                         <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Question {{ forloop.counter }}:</label>
+                            <div class="col-sm-9">
+                              {{b.question}}
+                            </div>
+                         </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                              A. {{b.option_a}}
+                            </div>
+                            <div class="col-sm-6">
+                              B. {{b.option_b}}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                              C. {{b.option_c}}
+                            </div>
+                            <div class="col-sm-6">
+                              D. {{b.option_d}}
+                            </div>
+                         </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Answer: </label>
+                            <div class="col-sm-3">
+                              {{a.answer}}
+                            </div>
+                            <div class="col-sm-1"></div>
+                            <label class="col-sm-2 col-form-label">Marks: </label>
+                            <div class="col-sm-4">
+                              {{b.marks}}
+                            </div>
+                         </div>
+                    </div>
+                    {% if forloop.counter|divisibleby:2 and forloop.counter > 0 and not forloop.last %}
+                         </div><div class = "row">
+                    {% else %}
+                        <div class="col-sm-2"></div>
+                    {% endif %}
+
+                {% endfor %}
+            </div>
+            </div>
+                 <div class="form-group">
+                    <p style="text-align:center;"><button class="btn btn-primary" onclick="alertbox()" type="submit">Submit</button></p>
+                </div>
+        </form>
+    </div>
+
 {% endblock %}

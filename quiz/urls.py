@@ -2,7 +2,7 @@ from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
 from users import views as user_views
-from .views import QuizDetailView, HomeListView
+from .views import HomeListView
 from users.views import UserProfiles
 from creation import views as create_views
 
@@ -18,4 +18,7 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
     path('searches/', views.searchview, name='searches'),
     path('profile/', user_views.myprofile, name='profile'),
+    path('response/<int:pk>/', user_views.responses, name='responses'),
+    path('review/<int:pk>/', create_views.review, name='review'),
+    path('quizpage/<int:pk>/', views.quizpage, name='quizpage'),
 ]

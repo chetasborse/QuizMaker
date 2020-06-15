@@ -1,0 +1,28 @@
+{% extends "quiz/base.html" %}
+ {% block content %}
+<div class="container">
+  <h2>Responses</h2>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+          <th>No.</th>
+        <th>Username</th>
+        <th>Name</th>
+        <th>Marks</th>
+          <th>Time Submitted</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for entry in response %}
+          <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ entry.author }}</td>
+            <td>{{ entry.author.first_name }} {{ entry.author.last_name }}</td>
+            <td>{{ entry.marks }}</td>
+            <td>{{ entry.date_posted }}</td>
+          </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -21,3 +21,10 @@ class Questions(models.Model):
 
     def __str__(self):
         return self.question
+
+
+class Answers(models.Model):
+    quiz_no = models.IntegerField()
+    question_no = models.IntegerField()
+    answer = models.CharField(choices=CHOICES, max_length=10, default='0')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, default=None)

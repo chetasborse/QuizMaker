@@ -18,5 +18,6 @@ class QuestionForm(forms.Form):
     marks = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter Marks'}))
 
 
-class QuizAttempt(forms.Form):
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder': 'Enter Quiz Password'}))
+class AnswerForm(forms.Form):
+    answer = forms.ChoiceField(choices=CHOICES)
+
