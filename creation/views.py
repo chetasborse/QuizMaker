@@ -7,11 +7,12 @@ from django.forms import formset_factory
 from .forms import QuestionForm, AnswerForm
 from .models import Questions, Answers
 from django.contrib import messages
+from datetime import datetime
 
 
 class QuizCreateView(LoginRequiredMixin, CreateView):
     model = Quiz
-    fields = ['title', 'description', 'questions', 'marks', 'instructions', 'password']
+    fields = ['title', 'description', 'questions', 'hours', 'minutes', 'instructions', 'password']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -59,24 +60,18 @@ def quiz_create_ques(request, pk):
         return redirect('quiz-home')
 
 
-def quizview(request, pk, password):
+def quizview(request, pk, times, password):
     questions = Questions.objects.filter(quiz_no=pk)
-    quizans = QuizAnswer.objects.filter(quiz_no=pk, author=request.user)
-    quiz = Quiz.objects.filter(pk=pk).first()
-    if quizans:
-        messages.error(request, f'You have already attempted this quiz')
-        return redirect('profile')
+    quizanswer = QuizAnswer.objects.get(quiz_no=pk, author=request.user)
     print("here1")
     count = len(questions)
     print("here2")
     AnswerFormSet = formset_factory(AnswerForm, extra=count, max_num=count)
     print("here3")
     if request.method == 'POST':
+        print("Entered Post")
         formset = AnswerFormSet(request.POST)
         if formset.is_valid():
-            quizanswer = QuizAnswer()
-            quizanswer.quiz_no = pk
-            quizanswer.author = request.user
             mark = 0
             for i, form in enumerate(formset):
                 ans = Answers()
@@ -89,9 +84,6 @@ def quizview(request, pk, password):
                     mark = mark + questions[i].marks
                 ans.save()
             quizanswer.marks = mark
-            quizanswer.host = quiz.author
-            quizanswer.questions = quiz.questions
-            quizanswer.title = quiz.title
             quizanswer.save()
             return redirect('profile')
     else:
@@ -105,22 +97,28 @@ def quizview(request, pk, password):
     context = {
         'title': 'Quiz View',
         'mylist': mylist,
-        'form': formset
+        'form': formset,
+        'time': times,
     }
     # return redirect('quiz-home')
     return render(request, 'creation/quizview.html', context)
 
 
-def review(request, pk):
-    answers = Answers.objects.filter(quiz_no=pk, author=request.user)
+def review(request, pk, authors):
+    if authors == '100':
+        answers = Answers.objects.filter(quiz_no=pk, author=request.user)
+        quiz_ans = QuizAnswer.objects.filter(quiz_no=pk, author=request.user).first()
+    else:
+        pkey = int(authors)
+        quiz_ans = QuizAnswer.objects.filter(pk=pkey).first()
+        answers = Answers.objects.filter(quiz_no=pk, author=quiz_ans.author)
+        quiz_ans = QuizAnswer.objects.filter(quiz_no=pk, author=quiz_ans.author).first()
     questions = Questions.objects.filter(quiz_no=pk)
-    quiz_ans = QuizAnswer.objects.filter(quiz_no=pk, author=request.user).first()
-    quiz = Quiz.objects.filter(pk=pk).first()
+
     mylist = zip(questions, answers)
     context = {
         'title': 'Review',
         'mylist': mylist,
-        'quiz_ans': quiz_ans,
-        'quiz': quiz
+        'quiz_ans': quiz_ans
     }
     return render(request, 'creation/review.html', context)

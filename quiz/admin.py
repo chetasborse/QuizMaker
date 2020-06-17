@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Quiz, QuizAnswer
+from .models import Quiz, QuizAnswer, Attempt
 
 
 class OrderQuiz(admin.ModelAdmin):
@@ -8,3 +8,4 @@ class OrderQuiz(admin.ModelAdmin):
 
 admin.site.register(Quiz, OrderQuiz)
 admin.site.register(QuizAnswer)
+admin.site.register(Attempt)

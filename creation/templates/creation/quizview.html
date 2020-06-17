@@ -1,12 +1,29 @@
 {% extends "quiz/base.html" %}
  {% block content %}
     <div class="container">
-        <form method="POST">
+        <div id="timerow"  class="row" style="background-color:rgba(255, 255, 255, 1); padding:10px;">
+            <div class="col-sm-3">
+                <p>Time Remaining</p>
+            </div>
+            <div class="col-sm-3">
+                <p id="hour"></p>
+            </div>
+            <div class="col-sm-3">
+                <p id="minute"></p>
+            </div>
+            <div class="col-sm-3">
+                <p id="second"></p>
+            </div>
+        </div>
+        <p id="demo"></p>
+    </div>
+    <div class="container">
+        <form method="POST" id="newform">
                 {% csrf_token %}
                 {{ form.management_form }}
             <div class="container">
             <div class="row">
-                <p>hmmm</p>
+                <p>{{ now }}</p>
                 {% for a, b in mylist %}
                     <div class="col-sm-5" style="border:1px solid; padding:20px; margin:10px;">
                          <div class="form-group row">
@@ -57,5 +74,32 @@
                 </div>
         </form>
     </div>
+
+<script>
+
+deadline = {{ time }};
+var x = setInterval(function() {
+
+var now = new Date().getTime();
+t = deadline - now;
+var hours = Math.floor((t%(1000 * 60 * 60 * 24))/(1000 * 60 * 60));
+var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
+var seconds = Math.floor((t % (1000 * 60)) / 1000);
+document.getElementById("hour").innerHTML =hours;
+document.getElementById("minute").innerHTML = minutes;
+document.getElementById("second").innerHTML =seconds;
+if (t < 0) {
+        clearInterval(x);
+        document.getElementById("demo").innerHTML = "TIME UP";
+        document.getElementById("hour").innerHTML ='0';
+        document.getElementById("minute").innerHTML ='0' ;
+        document.getElementById("second").innerHTML = '0';
+        document.getElementById("newform").submit();
+        }
+if (t < 10000) {
+        document.getElementById("timerow").style.backgroundColor = "rgba(255, 0, 0, 0.6)";
+        }
+}, 1000);
+</script>
 
 {% endblock %}

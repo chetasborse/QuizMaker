@@ -21,3 +21,5 @@ class QuestionForm(forms.Form):
 class AnswerForm(forms.Form):
     answer = forms.ChoiceField(choices=CHOICES)
 
+class QuizAttempt(forms.Form):
+    password = forms.CharField(widget=forms.PasswordInput())

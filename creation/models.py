@@ -28,3 +28,5 @@ class Answers(models.Model):
     question_no = models.IntegerField()
     answer = models.CharField(choices=CHOICES, max_length=10, default='0')
     author = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
+
+

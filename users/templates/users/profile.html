@@ -1,7 +1,7 @@
 {% extends "quiz/base.html" %}
  {% block content %}
     <div class="container">
-        <div class="col-sm-5">
+        <div class="col-sm-6">
             <div class="row" style="border:1px solid; padding:10px;">
                 <div class="media">
                     <div class="col-sm-3">
@@ -67,9 +67,9 @@
             </div>
         </div>
         <div class="col-sm-1"></div>
-        <div class="col-sm-6">
+        <div class="col-sm-5">
             <div class="row">
-                <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo1">Quizes Hosted</button>
+                <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo1">Hosted Quizzes</button>
                 <br><br>
                 <div id="demo1" class="collapse">
                     {% for quiz in quizes %}
@@ -110,7 +110,7 @@
                 </div>
             </div>
             <div class="row">
-                <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo2">Enrolled Quizes</button>
+                <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo2">Enrolled Quizzes</button>
                 <div id="demo2" class="collapse">
                     <br><br>
                     {% for quiz in enrolled %}
@@ -125,14 +125,14 @@
                                  <div class="col-sm-3 ">
                                      <p class="article-content">Questions : {{ quiz.questions }}</p>
                                  </div>
-                                 <div class="col-sm-3 ">
-                                     <p class="article-content">Marks Scored : {{ quiz.marks }}</p>
+                                 <div class="col-sm-4 ">
+                                     <p class="article-content">Marks Scored : {{ quiz.marks }} / {{ quiz.total_marks }}</p>
                                  </div>
                             </div>
                            <br>
                             <div class="row">
                                 <div class="col-sm-12" style="text-align:center;">
-                                   <a href="{% url 'review' quiz.quiz_no %}" class="btn btn-primary">View Response</a>
+                                   <a href="{% url 'review' pk=quiz.quiz_no authors='100' %}" class="btn btn-primary">View Response</a>
                                </div>
                             </div>
                         </div>

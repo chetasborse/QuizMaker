@@ -10,6 +10,7 @@
         <th>Name</th>
         <th>Marks</th>
           <th>Time Submitted</th>
+          <th>Review</th>
       </tr>
     </thead>
     <tbody>
@@ -18,8 +19,9 @@
               <td>{{ forloop.counter }}</td>
               <td>{{ entry.author }}</td>
             <td>{{ entry.author.first_name }} {{ entry.author.last_name }}</td>
-            <td>{{ entry.marks }}</td>
+            <td>{{ entry.marks }} / {{ entry.total_marks }}</td>
             <td>{{ entry.date_posted }}</td>
+              <td><a href="{% url 'review' pk=entry.quiz_no authors=entry.pk%}">Click Here</a></td>
           </tr>
         {% endfor %}
     </tbody>

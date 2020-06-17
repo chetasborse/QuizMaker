@@ -29,69 +29,56 @@
              </div>
          </div>
            <br>
-           <div class="col-sm-1"></div>
-           <div class = "col-sm-2">
-               <p class="article-content">Quiz Password : </p>
-           </div>
-           <div class="row">
-               <div class = "col-sm-6">
-                   <input type="password" class="form-control" id="inputPassword" placeholder="Password">
-               </div>
-               <div class = "col-sm-2">
-                   <button onclick="redir()" class="btn btn-primary" >Start</button>
-               </div>
-               <div class="col-sm-1"></div>
-           </div>
-           <div class="row">
-               <div class = "col-sm-4"></div>
-               <div class = "col-sm-5">
-                   <p id="demo" style="color:red;"></p></div>
-               <div class="col-sm-3"></div>
-           </div>
-
-
-<!--           <div class = "row">-->
-<!--               <form method="POST">-->
-<!--                   {% csrf_token %}-->
-<!--                   <div class="col-sm-1"></div>-->
-<!--                   <div class = "col-sm-2">-->
-<!--                       <p class="article-content">Quiz Password : </p>-->
-<!--                   </div>-->
-<!--                   <div class = "col-sm-6">-->
-<!--                       {{ form.password }}-->
-<!--                   </div>-->
-<!--                   <div class = "col-sm-2">-->
-<!--                       <input type="submit" class="btn btn-primary" >-->
-<!--                   </div>-->
-<!--                   <div class="col-sm-1"></div>-->
-<!--               </form>-->
-<!--               {% if error %}-->
-<!--                    <div class="row">-->
-<!--                        <div class="col-sm-3"></div>-->
-<!--                        <div class="col-sm-6">-->
-<!--                            <p style="color: red">Please Enter Correct Password</p>-->
-<!--                        </div>-->
-<!--                        <div class="col-sm-3"></div>-->
-<!--                    </div>-->
-<!--               {% endif %}-->
+<!--           <div class="col-sm-1"></div>-->
+<!--           <div class = "col-sm-2">-->
+<!--               <p class="article-content">Quiz Password : </p>-->
 <!--           </div>-->
+<!--           <div class="row">-->
+<!--               <div class = "col-sm-6">-->
+<!--                   <input type="password" class="form-control" id="inputPassword" placeholder="Password">-->
+<!--               </div>-->
+<!--               <div class = "col-sm-2">-->
+<!--                   <button onclick="redir()" class="btn btn-primary" >Start</button>-->
+<!--               </div>-->
+<!--               <div class="col-sm-1"></div>-->
+<!--           </div>-->
+<!--           <div class="row">-->
+<!--               <div class = "col-sm-4"></div>-->
+<!--               <div class = "col-sm-5">-->
+<!--                   <p id="demo" style="color:red;"></p></div>-->
+<!--               <div class="col-sm-3"></div>-->
+<!--           </div>-->
+
+
+           <div class = "row">
+               <form method="POST">
+                   {% csrf_token %}
+                   <div class="col-sm-1"></div>
+                   <div class = "col-sm-2">
+                       <p class="article-content">Quiz Password : </p>
+                   </div>
+                   <div class = "col-sm-6">
+                       {{ form.password }}
+                   </div>
+                   <div class = "col-sm-2">
+                       <input type="submit" class="btn btn-primary" >
+                   </div>
+                   <div class="col-sm-1"></div>
+               </form>
+               {% if error %}
+                    <div class="row">
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm-6">
+                            <p style="color: red">Please Enter Correct Password</p>
+                        </div>
+                        <div class="col-sm-3"></div>
+                    </div>
+               {% endif %}
+           </div>
 
         </div>
     <br>
    </div>
    <div class="col-sm-3 "></div>
 
-<script>
-    function redir() {
-        var password1 = document.getElementById("inputPassword").value;
-        var password2 = {{ object.password }};
-        var result = password1.localeCompare(password2);
-        if(result == 0) {
-            location.href="{% url 'quiz_view' pk=object.pk password=object.password %}";
-        }
-        else {
-            document.getElementById("demo").innerHTML = "Password is incorrect";
-        }
-    }
-</script>
  {% endblock %}

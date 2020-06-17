@@ -1,9 +1,12 @@
 from django.shortcuts import render, redirect
-from .models import Quiz
+from .models import Quiz, Attempt, QuizAnswer
 import re
 from django.views.generic import DetailView, ListView, FormView
 from django.contrib.auth.models import User
 from creation.models import Questions
+from creation.forms import QuizAttempt
+from datetime import datetime
+from django.contrib import messages
 
 
 def home(request):
@@ -27,36 +30,38 @@ class HomeListView(ListView):
         return context
 
 
-# class QuizDetailView(DetailView, FormView):
-#     model = Quiz
-#     template_name = 'quiz/detail.html'
-#     form_class = QuizAttempt
-#     success_url = 'quiz/home.html'
-#
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         new_context_entry = "Details"
-#         context["title"] = new_context_entry
-#         return context
-
-
 def quizdetailview(request, pk):
     quiz = Quiz.objects.filter(pk=pk).first()
-    # is_error = False
-    # if request.method == 'POST':
-    #     form = QuizAttempt(request.POST)
-    #     if form.is_valid():
-    #         password = form.cleaned_data.get('password')
-    #         if quiz.password == password:
-    #             return redirect('quiz-home')
-    #         else:
-    #             is_error = True
-    # form = QuizAttempt()
+    quizans = QuizAnswer.objects.filter(quiz_no=pk, author=request.user)
+    if quizans:
+        messages.success(request, f'You have already attempted this quiz. Check Enrolled Quizes')
+        return redirect('profile')
+    is_error = False
+    if request.method == 'POST':
+        form = QuizAttempt(request.POST)
+        if form.is_valid():
+            password = form.cleaned_data.get('password')
+            if quiz.password == password:
+                quiz_answer = QuizAnswer()
+                quiz_answer.quiz_no = pk
+                quiz_answer.author = request.user
+                quiz_answer.total_marks = quiz.marks
+                quiz_answer.host = quiz.author
+                quiz_answer.questions = quiz.questions
+                quiz_answer.title = quiz.title
+                quiz_answer.save()
+                hrs = quiz.hours * 3600000
+                mins = quiz.minutes * 60000
+                time = int(datetime.now().timestamp() * 1000 + hrs + mins)
+                return redirect('quiz_view', pk=pk, times=time, password=password)
+            else:
+                is_error = True
+    form = QuizAttempt()
     context = {
         'title': 'Details',
         'object': quiz,
-        # 'form': form,
-        # 'error': is_error
+        'form': form,
+        'error': is_error,
     }
     return render(request, 'quiz/detail.html', context)
 

@@ -7,9 +7,10 @@
     <div class="container">
         <div style="border:1px solid; padding:20px;">
             <div class="row">
-                <label class="col-sm-2 col-form-label">Topic :</label><label class="col-sm-10 col-form-label"> {{ quiz.title }}</label>
-                <label class="col-sm-2 col-form-label">Marks scored : </label><label class="col-sm-10 col-form-label">{{ quiz_ans.marks }} / {{ quiz.marks }}</label>
-                <label class="col-sm-2 col-form-label">Host: </label><label class="col-sm-10 col-form-label"><a href="{% url 'user_details' quiz.author.id %}">{{ quiz.author }}</a></label><hr>
+                <label class="col-sm-2 col-form-label">Topic :</label><label class="col-sm-10 col-form-label"> {{ quiz_ans.title }}</label>
+                <label class="col-sm-2 col-form-label">Marks scored : </label><label class="col-sm-10 col-form-label">{{ quiz_ans.marks }} / {{ quiz_ans.total_marks }}</label>
+                <label class="col-sm-2 col-form-label">Host: </label><label class="col-sm-10 col-form-label"><a href="{% url 'user_details' quiz_ans.author.id %}">{{ quiz_ans.host }}</a></label><hr>
+                <label class="col-sm-2 col-form-label">User: </label><label class="col-sm-10 col-form-label">{{ quiz_ans.author }}</label>
                 <label class="col-sm-2 col-form-label">Time : </label><label class="col-sm-10 col-form-label">{{ quiz_ans.date_posted }}</label>
             </div>
         </div>
