@@ -34,8 +34,8 @@ def myprofile(request):
     else:
         u_form = UserUpdateForm(instance=request.user)
         p_form = ProfileUpdateForm(instance=request.user.profile)
-    my_quizes = Quiz.objects.filter(author=request.user)
-    enrolled = QuizAnswer.objects.filter(author=request.user)
+    my_quizes = reversed(Quiz.objects.filter(author=request.user))
+    enrolled = reversed(QuizAnswer.objects.filter(author=request.user))
     context = {
         'title': 'Profile',
         'u_form': u_form,

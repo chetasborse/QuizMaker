@@ -12,7 +12,7 @@ from datetime import datetime
 
 class QuizCreateView(LoginRequiredMixin, CreateView):
     model = Quiz
-    fields = ['title', 'description', 'questions', 'hours', 'minutes', 'instructions', 'password']
+    fields = ['title', 'description', 'questions', 'minutes', 'instructions', 'password']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -122,3 +122,8 @@ def review(request, pk, authors):
         'quiz_ans': quiz_ans
     }
     return render(request, 'creation/review.html', context)
+
+
+# def likes(request):
+#     if request.method == 'POST':
+#         id = request.POST['id']

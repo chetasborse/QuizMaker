@@ -69,15 +69,28 @@
         <div class="col-sm-1"></div>
         <div class="col-sm-5">
             <div class="row">
-                <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo1">Hosted Quizzes</button>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo1">Hosted Quizzes</button>
+                    </div>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" placeholder="Search Hosted Quizzes" name="Search">
+                    </div>
+                </div>
                 <br><br>
                 <div id="demo1" class="collapse">
                     {% for quiz in quizes %}
                     <div class="row">
-                        <div style="border:1px solid; padding:20px;">
-                        <h2><a href="#">{{ quiz.title }}</a></h2>
-                            <br>
-                            <div class="row">
+                        <div style="border:1px solid; padding:10px;">
+                            <div class="row"style="padding-bottom:5px;">
+                                <div class="col-sm-7">
+                                    <h3><a href="#">{{ quiz.title }}</a></h3>
+                                </div>
+                                <div class="col-sm-5" style="padding-top:20px;">
+                                        <small class="text-muted" >Date: {{ quiz.date_posted|date:"d/m/y, h:i a" }}</small>
+                                </div>
+                            </div>
+                            <div class="row" style="padding-bottom:5px;">
                               {% if not quiz.description %}
                                  <div class="col-sm-6 ">
                                      <p class="article-content">Description : There is no description.</p>
@@ -94,7 +107,6 @@
                                      <p class="article-content">Marks : {{ quiz.marks }}</p>
                                  </div>
                             </div>
-                           <br>
                             <div class="row">
                                <div class="col-sm-6" style="text-align:center;">
                                    <a href="{% url 'quizpage' quiz.id %}" class="btn btn-primary">View Quiz</a>
@@ -110,16 +122,37 @@
                 </div>
             </div>
             <div class="row">
-                <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo2">Enrolled Quizzes</button>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo2">Enrolled Quizzes</button>
+                    </div>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" placeholder="Search Hosted Quizzes" name="Search">
+                    </div>
+                </div>
                 <div id="demo2" class="collapse">
                     <br><br>
                     {% for quiz in enrolled %}
                     <div class="row">
-                        <div  style="border:1px solid; padding:20px;">
+                        <div  style="border:1px solid; padding:10px;">
                             <div class="article-metadata">
-                                <h4 class="article-content">Host: <a class="mr-2" href="{% url 'user_details' quiz.host.id %}">{{ quiz.host.first_name }} {{ quiz.host.last_name }}</a></h4>
-                        </div>
-                        <h4>Topic: {{ quiz.title }}</h4>
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <h4 class="article-content">Host: <a class="mr-2" href="{% url 'user_details' quiz.host.id %}">{{ quiz.host.first_name }} {{ quiz.host.last_name }}</a></h4>
+                                    </div>
+                                    <div class="col-sm-4" style="padding:5px;">
+                                        <small class="text-muted" >Date: {{ quiz.date_posted|date:"d/m/y, h:i a" }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-7">
+                                    <h4>Topic: {{ quiz.title }}</h4>
+                                </div>
+                                <div class="col-sm-5" style="text-align:center;">
+                                   <a href="{% url 'review' pk=quiz.quiz_no authors='100' %}" class="btn btn-primary">View Response</a>
+                               </div>
+                            </div>
                             <br>
                             <div class="row">
                                  <div class="col-sm-3 ">
@@ -129,12 +162,7 @@
                                      <p class="article-content">Marks Scored : {{ quiz.marks }} / {{ quiz.total_marks }}</p>
                                  </div>
                             </div>
-                           <br>
-                            <div class="row">
-                                <div class="col-sm-12" style="text-align:center;">
-                                   <a href="{% url 'review' pk=quiz.quiz_no authors='100' %}" class="btn btn-primary">View Response</a>
-                               </div>
-                            </div>
+                            <br>
                         </div>
                     </div>
                     <br>

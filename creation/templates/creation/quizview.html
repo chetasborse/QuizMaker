@@ -1,22 +1,24 @@
 {% extends "quiz/base.html" %}
  {% block content %}
-    <div class="container">
-        <div id="timerow"  class="row" style="background-color:rgba(255, 255, 255, 1); padding:10px;">
-            <div class="col-sm-3">
+        <div id="timerow" class="container" style="background-color:rgba(200, 200, 200, 0.5); padding:10px;">
+            <div class="col-sm-2">
                 <p>Time Remaining</p>
             </div>
-            <div class="col-sm-3">
-                <p id="hour"></p>
+            <div class="col-sm-1">
+                Hours<p id="hour"></p>
             </div>
-            <div class="col-sm-3">
-                <p id="minute"></p>
+            <div class="col-sm-1">
+                Mins<p id="minute"></p>
             </div>
-            <div class="col-sm-3">
-                <p id="second"></p>
+            <div class="col-sm-1">
+                Secs<p id="second"></p>
             </div>
+            <div class="col-sm-5"></div>
+            <div class="col-sm-2">
+                <p id="demo">Clock is ticking</p>
+            </div>
+
         </div>
-        <p id="demo"></p>
-    </div>
     <div class="container">
         <form method="POST" id="newform">
                 {% csrf_token %}
@@ -25,40 +27,42 @@
             <div class="row">
                 <p>{{ now }}</p>
                 {% for a, b in mylist %}
-                    <div class="col-sm-5" style="border:1px solid; padding:20px; margin:10px;">
-                         <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Question {{ forloop.counter }}:</label>
-                            <div class="col-sm-9">
-                              {{b.question}}
+                    <div class="col-sm-6">
+                        <div style="border:1px solid; padding:20px; margin:10px;">
+                             <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Question {{ forloop.counter }}:</label>
+                                <div class="col-sm-9">
+                                  {{b.question}}
+                                </div>
+                             </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                  A. {{b.option_a}}
+                                </div>
+                                <div class="col-sm-6">
+                                  B. {{b.option_b}}
+                                </div>
                             </div>
-                         </div>
-                        <div class="form-group row">
-                            <div class="col-sm-6">
-                              A. {{b.option_a}}
-                            </div>
-                            <div class="col-sm-6">
-                              B. {{b.option_b}}
-                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                  C. {{b.option_c}}
+                                </div>
+                                <div class="col-sm-6">
+                                  D. {{b.option_d}}
+                                </div>
+                             </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Answer: </label>
+                                <div class="col-sm-3">
+                                  {{a.answer}}
+                                </div>
+                                <div class="col-sm-1"></div>
+                                <label class="col-sm-2 col-form-label">Marks: </label>
+                                <div class="col-sm-4">
+                                  {{b.marks}}
+                                </div>
+                             </div>
                         </div>
-                        <div class="form-group row">
-                            <div class="col-sm-6">
-                              C. {{b.option_c}}
-                            </div>
-                            <div class="col-sm-6">
-                              D. {{b.option_d}}
-                            </div>
-                         </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Answer: </label>
-                            <div class="col-sm-3">
-                              {{a.answer}}
-                            </div>
-                            <div class="col-sm-1"></div>
-                            <label class="col-sm-2 col-form-label">Marks: </label>
-                            <div class="col-sm-4">
-                              {{b.marks}}
-                            </div>
-                         </div>
                     </div>
                     {% if forloop.counter|divisibleby:2 and forloop.counter > 0 and not forloop.last %}
                          </div><div class = "row">
@@ -69,7 +73,7 @@
                 {% endfor %}
             </div>
             </div>
-                 <div class="form-group">
+                 <div class="container">
                     <p style="text-align:center;"><button class="btn btn-primary" onclick="alertbox()" type="submit">Submit</button></p>
                 </div>
         </form>
@@ -95,6 +99,9 @@ if (t < 0) {
         document.getElementById("minute").innerHTML ='0' ;
         document.getElementById("second").innerHTML = '0';
         document.getElementById("newform").submit();
+        }
+        if (t < 60000) {
+        document.getElementById("demo").innerHTML = "LAST MINUTE";
         }
 if (t < 10000) {
         document.getElementById("timerow").style.backgroundColor = "rgba(255, 0, 0, 0.6)";

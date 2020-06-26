@@ -10,7 +10,7 @@
            <a href="{% url 'create_home' %}" class="btn btn-primary">Create</a>
        </div>
        </div>
-
+       <br>
 
    </div>
    <div class="col-sm-9 ">
@@ -18,12 +18,23 @@
        <div class="col-sm-6">
            <div style="border:1px solid; padding:20px; margin-bottom: 20px;">
              <div class="media-body">
-              <div class="article-metadata">
-               <a class="mr-2" href="{% url 'user_details' quiz.author.id %}"><img class="rounded-circle article-img" src="{{ quiz.author.profile.image.url }}" style="width:25px;">  {{ quiz.author }}</a>
-               <small class="text-muted" >{{ quiz.date_posted }}</small>
+              <div class="row">
+               <div class="col-sm-7">
+                      <a class="mr-2" href="{% url 'user_details' quiz.author.id %}" style="font-size:15px;"><img class="rounded-circle article-img" src="{{ quiz.author.profile.image.url }}" style="width:25px;"> {{ quiz.author }}</a>
+                  </div>
+                  <div class="col-sm-5">
+                      <small class="text-muted" >Date: {{ quiz.date_posted|date:"d/m/y, h:i a" }}</small>
+                  </div>
               </div>
               <hr>
-              <h2><a class="article-title" href="#">{{ quiz.title }}</a></h2>
+                 <div class="row">
+                     <div class="col-sm-8">
+                         <p style="font-size:20px;"><a class="article-title" href="#">{{ quiz.title }}</a></p>
+                     </div>
+                     <div class="col-sm-4">
+                         <p class="article-content">Time: {{ quiz.minutes }} minutes</p>
+                     </div>
+                 </div>
               {% if not quiz.description %}
                  <div class="col-sm-6 ">
                      <p class="article-content">Description : There is no description.</p>

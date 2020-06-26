@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Quiz, Attempt, QuizAnswer
+from .models import Quiz, QuizAnswer
 import re
 from django.views.generic import DetailView, ListView, FormView
 from django.contrib.auth.models import User
@@ -50,9 +50,9 @@ def quizdetailview(request, pk):
                 quiz_answer.questions = quiz.questions
                 quiz_answer.title = quiz.title
                 quiz_answer.save()
-                hrs = quiz.hours * 3600000
+                # hrs = quiz.hours * 3600000
                 mins = quiz.minutes * 60000
-                time = int(datetime.now().timestamp() * 1000 + hrs + mins)
+                time = int(datetime.now().timestamp() * 1000 + mins)
                 return redirect('quiz_view', pk=pk, times=time, password=password)
             else:
                 is_error = True
@@ -86,6 +86,10 @@ def searchview(request):
 
     for item in users:
         if re.search(search, item.username, re.IGNORECASE):
+            elems2.append(item)
+        elif re.search(search, item.first_name, re.IGNORECASE):
+            elems2.append(item)
+        elif re.search(search, item.last_name, re.IGNORECASE):
             elems2.append(item)
 
     context = {
